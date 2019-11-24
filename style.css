@@ -1,0 +1,33 @@
+body {
+  padding: 15px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  width: auto;
+  /* border: 1px solid; */
+  height: auto;
+}
+.user-list {
+  /* border: 1px dotted; */
+  width: 350px;
+}
+.post-list {
+  width: 600px;
+  margin-left: -20px;
+  /* border: 1px dotted red; */
+}
+
+#getUser {
+  color: #fff;
+  outline: none;
+  background-color: rgba(22, 112, 247, 0.637);
+  border-radius: 25px;
+  margin: 0 0 10px 70px;
+}
+
+.list-group-item {
+  width: 350px;
+  text-align: left;
+}
