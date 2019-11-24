@@ -11,11 +11,8 @@ const message = document.getElementById("message");
 let comResult;
 let countCom = 0;
 
-console.log(postList);
-
 btn.addEventListener("click", () => {
-  getUsersData();
-  // .then(getUsersPost());
+  getUsersData().then(r => showUsers(r));
 });
 
 function getUsersData() {
@@ -24,16 +21,16 @@ function getUsersData() {
     xhr.open("GET", usersData);
     xhr.onload = () => {
       if (xhr.status !== 200) {
-        message.innerHTML = "Request failed: " + xhr.status;
+        fail((message.innerHTML = "Request failed: " + xhr.status));
       } else {
-        const resp = JSON.parse(xhr.response);
-        showUsers(resp);
-        message.innerHTML = "Request succses: " + xhr.status;
-        // console.log(`Loded: ${xhr.status} ${xhr.response}`);
+        succes(
+          (resp = JSON.parse(xhr.response)),
+          (message.innerHTML = "Request succes: " + xhr.status)
+        );
       }
     };
     xhr.onerror = () => {
-      console.log("Network Error: " + xhr.status);
+      message.innerHTML = "Network Error: " + xhr.status;
     };
     xhr.send();
   });
@@ -57,8 +54,8 @@ function showUsers(r) {
 //---------------------------------------------------------------//
 function show(id) {
   postList.innerHTML = " ";
-  getComment();
-  getUsersPost();
+  getComment().then(r => comVal(r));
+  getUsersPost().then(res => showPost(res));
 }
 
 function getUsersPost() {
@@ -67,15 +64,16 @@ function getUsersPost() {
     xhr.open("GET", usersPost);
     xhr.onload = () => {
       if (xhr.status !== 200) {
-        console.log("Request failed: " + xhr.status);
+        fail((message.innerHTML = "Request failed: " + xhr.status));
       } else {
-        const resp = JSON.parse(xhr.response);
-        showPost(resp);
-        // console.log(`Loded: ${xhr.status} ${xhr.response}`);
+        succes(
+          (resp = JSON.parse(xhr.response)),
+          (message.innerHTML = "Request : " + xhr.status)
+        );
       }
     };
     xhr.onerror = () => {
-      console.log("Network Error: " + xhr.status);
+      message.innerHTML = "Network Error: " + xhr.status;
     };
     xhr.send();
   });
@@ -83,7 +81,7 @@ function getUsersPost() {
 
 function showPost(r) {
   r.forEach(post => {
-    const li = document.createElement("li");
+    const li = document.createElement("button");
     li.classList.add("list-group-item");
     li.classList.add("d-flex");
     li.classList.add("justify-content-between");
@@ -94,15 +92,17 @@ function showPost(r) {
     li.textContent = post.title;
     postList.appendChild(li);
     const span = document.createElement("span");
-    span.classList.add("badge");
-    span.classList.add("badge-primary");
     span.classList.add("badge-pill");
+    span.classList.add("spinner-border", "float-right");
     span.id = "post";
-    // span.textContent = setTimeout(() => {
-    //   innerHTML = "55";
-    // }, 3000);
-    span.textContent = countCom;
+    span.textContent = " ";
     li.appendChild(span);
+
+    setTimeout(() => {
+      span.classList.remove("spinner-border", "float-right");
+      span.classList.add("badge", "badge-primary");
+      span.textContent = countCom;
+    }, 1000);
   });
 }
 
@@ -112,17 +112,17 @@ function getComment() {
     xhr.open("GET", usersComment);
     xhr.onload = () => {
       if (xhr.status !== 200) {
-        console.log("Request failed: " + xhr.status);
+        fail((message.innerHTML = "Request failed: " + xhr.status));
       } else {
-        const resp = JSON.parse(xhr.response);
-        comResult = resp;
-        comVal(resp);
-        // showComment(resp);
-        // 	console.log(`Loded: ${xhr.status} ${xhr.response}`);
+        succes(
+          (resp = JSON.parse(xhr.response)),
+          (comResult = resp)
+          // comVal(resp)
+        );
       }
     };
     xhr.onerror = () => {
-      console.log("Network Error: " + xhr.status);
+      message.innerHTML = "Network Error: " + xhr.status;
     };
     xhr.send();
   });
@@ -137,6 +137,7 @@ function showComment(r) {
     field.textContent = comm.name;
     comments.appendChild(field);
   });
+  message.innerHTML = "Request Comments succes";
 }
 
 function comVal(r) {
