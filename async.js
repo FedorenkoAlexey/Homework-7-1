@@ -12,7 +12,7 @@ let comResult;
 let countCom = 0;
 // let resUser = [];
 
-function get(GET, url) {
+function request(GET, url) {
   return new Promise((succes, fals) => {
     const xhr = new XMLHttpRequest();
     xhr.open(GET, url);
@@ -27,7 +27,7 @@ btn.addEventListener("click", () => {
 });
 
 async function getUsersData() {
-  let resUser = await get("GET", usersData);
+  let resUser = await request("GET", usersData);
   resUser = JSON.parse(resUser.target.response);
   try {
     list.innerHTML = " ";
@@ -55,7 +55,7 @@ function show() {
 }
 
 async function getUsersPost() {
-  let resPost = await get("GET", usersPost);
+  let resPost = await request("GET", usersPost);
   resPost = JSON.parse(resPost.target.response);
   try {
     resPost.forEach(post => {
@@ -89,7 +89,7 @@ async function getUsersPost() {
 }
 
 async function getComment() {
-  let resCom = await get("GET", usersComment);
+  let resCom = await request("GET", usersComment);
   comResult = JSON.parse(resCom.target.response);
   try {
     let count = 0;
@@ -102,9 +102,9 @@ async function getComment() {
   }
 }
 
-function showComment(r) {
+function showComment(resultComment) {
   comments.innerHTML = " ";
-  r.forEach(comm => {
+  resultComment.forEach(comm => {
     const field = document.createElement("p");
     field.classList.add("list-group-item");
     field.classList.add("list-group-item-action");

@@ -36,9 +36,9 @@ function getUsersData() {
   });
 }
 
-function showUsers(r) {
+function showUsers(resultUser) {
   list.innerHTML = " ";
-  r.forEach(users => {
+  resultUser.forEach(users => {
     const field = document.createElement("button");
     field.classList.add("list-group-item");
     field.classList.add("list-group-item-action");
@@ -54,7 +54,7 @@ function showUsers(r) {
 //---------------------------------------------------------------//
 function show(id) {
   postList.innerHTML = " ";
-  getComment().then(r => comVal(r));
+  getComment().then(result => comVal(result));
   getUsersPost().then(res => showPost(res));
 }
 
@@ -79,8 +79,8 @@ function getUsersPost() {
   });
 }
 
-function showPost(r) {
-  r.forEach(post => {
+function showPost(resultPost) {
+  resultPost.forEach(post => {
     const li = document.createElement("button");
     li.classList.add("list-group-item");
     li.classList.add("d-flex");
@@ -128,9 +128,9 @@ function getComment() {
   });
 }
 
-function showComment(r) {
+function showComment(resultComment) {
   comments.innerHTML = " ";
-  r.forEach(comm => {
+  resultComment.forEach(comm => {
     const field = document.createElement("p");
     field.classList.add("list-group-item");
     field.classList.add("list-group-item-action");
@@ -140,9 +140,9 @@ function showComment(r) {
   message.innerHTML = "Request Comments succes";
 }
 
-function comVal(r) {
+function comVal(result) {
   let count = 0;
-  r.forEach(comm => {
+  result.forEach(comm => {
     count += comm.postId;
   });
   countCom = count;
